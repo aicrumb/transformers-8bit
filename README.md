@@ -25,6 +25,6 @@ Call time up o'er-head,
 """
 ```
 
-finetuning code coming soon
-
-(until then, my words for you are: use bitsandbytes adam8bit just on model after loading, train as you would any other gpt from huggingface)
+notebooks!!!
+https://github.com/aicrumb/gpt-j-8bit/tree/main/notebooks/demo-finetune.ipynb
+https://github.com/aicrumb/gpt-j-8bit/tree/main/notebooks/demo-inference.ipynb
