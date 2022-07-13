@@ -12,7 +12,7 @@ code:
 !pip install transformers==4.14.1 bitsandbytes-cuda111==0.26.0 git+https://github.com/aicrumb/gpt-j-8bit -q
 import gptj_8bit as gptj
 
-model, tokenizer, config = gptj.load("crumb/gpt-j-6b-shakespeare", device='cuda')
+model, tokenizer, config = gptj.load("crumb/gpt-j-6b-shakespeare", device='cuda') # this will work with any gpt-j checkpoint, 8bit or not
 gptj.generate(model, tokenizer, "Romeo:", min_length=64, max_length=64)
 
 """ example output
