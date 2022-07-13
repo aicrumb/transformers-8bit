@@ -156,7 +156,7 @@ def load(checkpoint_name="hivemind/gpt-j-6B-8bit", tokenizer_name="EleutherAI/gp
 	gpt = GPTJForCausalLM.from_pretrained(checkpoint_name, low_cpu_mem_usage=True).to(device)
 	return tokenizer, gpt, config
 
-def generate(prompt, min_length=16, max_length=16, device='cuda'):
+def generate(gpt, tokenizer, prompt, min_length=16, max_length=16, device='cuda'):
 	prompt = tokenizer(prompt, return_tensors='pt')
 	prompt = {key: value.to(device) for key, value in prompt.items()}
 	out = gpt.generate(**prompt, min_length=min_length, max_length=max_length, do_sample=True)
