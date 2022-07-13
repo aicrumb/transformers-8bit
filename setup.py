@@ -1,7 +1,7 @@
 import setuptools
 
 setuptools.setup(
-    name='gptj-8bit',
+    name='gptj_8bit',
     version='0.0.1',
     author='aicrumb',
     author_email='crumby.naomi@gmail.com',
@@ -13,6 +13,6 @@ setuptools.setup(
         "Bug Tracker": "https://github.com/aicrumb/gpt-j-8bit/issues"
     },
     license='GNU GPLv3',
-    packages=['gptj-8bit'],
+    packages=['gptj_8bit'],
     install_requires=['transformers', 'datasets'],
 )
