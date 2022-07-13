@@ -1,0 +1,76 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "name": "Untitled13.ipynb",
+      "provenance": [],
+      "collapsed_sections": []
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    },
+    "accelerator": "GPU",
+    "gpuClass": "standard"
+  },
+  "cells": [
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "0sW2mW1PB9CS"
+      },
+      "outputs": [],
+      "source": [
+        "# libraries and a wrapper around hivemind's quantization code\n",
+        "!pip install transformers==4.14.1 bitsandbytes-cuda111==0.26.0 git+https://github.com/aicrumb/gpt-j-8bit -q\n",
+        "import gptj_8bit as gptj\n",
+        "from IPython import display\n",
+        "\n",
+        "# this should work with any gpt-j checkpoint, 8bit or not\n",
+        "model, tokenizer, config = gptj.load(\"crumb/gpt-j-6b-shakespeare\", device='cuda')\n",
+        "display.clear_output()"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "output_text = gptj.generate(model, tokenizer, \"Juliet: Good night, good night! Parting is such sweet\", min_length=64, max_length=64)\n",
+        "print(output_text)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "6QNAsLzNFlLU",
+        "outputId": "2ea58e98-d1d6-4290-872a-bbcd881262f9"
+      },
+      "execution_count": 7,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stderr",
+          "text": [
+            "Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.\n"
+          ]
+        },
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Juliet: Good night, good night! Parting is such sweet sorrow, that I\n",
+            "know not why I joy in thee; so, gentle Romeo, farewell! [Kissing\n",
+            "him]\n",
+            "Good night, good night!\n",
+            "\n",
+            "Romeo:O wilt thou leave me so unsatisfied?\n"
+          ]
+        }
+      ]
+    }
+  ]
+}
