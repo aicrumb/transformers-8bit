@@ -1,7 +1,7 @@
 # gpt-j-8bit
 wrapper for hivemind's gpt-j-8bit training code for easy loading
 
-check out my model finetuned with this style of loading: https://huggingface.co/crumb/gpt-j-6b-shakespeare
+model card of a model that i trained with this as proof of concept: https://huggingface.co/crumb/gpt-j-6b-shakespeare
 
 check out hivemind's original 8bit quantized model: https://huggingface.co/hivemind/gpt-j-6B-8bit
 
@@ -26,3 +26,5 @@ Call time up o'er-head,
 ```
 
 finetuning code coming soon
+
+(until then, my words for you are: use bitsandbytes adam8bit just on model after loading, train as you would any other gpt from huggingface)
