@@ -5,4 +5,23 @@ check out my model finetuned with this style of loading: https://huggingface.co/
 
 check out hivemind's original 8bit quantized model: https://huggingface.co/hivemind/gpt-j-6B-8bit
 
-notebook coming soon [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/aicrumb/gpt-j-8bit/blob/master/demo.ipynb)
+
+code:
+```python
+# libraries and a wrapper around hivemind's quantization code
+!pip install transformers==4.14.1 bitsandbytes-cuda111==0.26.0 git+https://github.com/aicrumb/gpt-j-8bit -q
+import gptj_8bit as gptj
+
+model, tokenizer, config = gptj.load("crumb/gpt-j-6b-shakespeare", device='cuda')
+gptj.generate(model, tokenizer, "Romeo:", min_length=64, max_length=64)
+
+""" example output
+Romeo: [Aside] And but in night, how tedious
+Is the day's celebration!
+JULIET: [Aside] O me! how quick skips time!
+Bid Time himself look out And, after no long date,
+Call time up o'er-head,
+"""
+```
+
+finetuning code coming soon
