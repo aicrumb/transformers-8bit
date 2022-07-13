@@ -154,7 +154,7 @@ def load(checkpoint_name="hivemind/gpt-j-6B-8bit", tokenizer_name="EleutherAI/gp
 	config = transformers.GPTJConfig.from_pretrained(tokenizer_name if tokenizer_name else checkpoint_name)
 	tokenizer = transformers.AutoTokenizer.from_pretrained(tokenizer_name if tokenizer_name else checkpoint_name)
 	gpt = GPTJForCausalLM.from_pretrained(checkpoint_name, low_cpu_mem_usage=True).to(device)
-	return tokenizer, gpt, config
+	return gpt, tokenizer, config
 
 def generate(gpt, tokenizer, prompt, min_length=16, max_length=16, device='cuda'):
 	prompt = tokenizer(prompt, return_tensors='pt')
