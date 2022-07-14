@@ -8,7 +8,7 @@ check out hivemind's original 8bit quantized model: https://huggingface.co/hivem
 ### installation
 
 ```python
-!pip install git+https://github.com/huggingface/transformers datasets -q
+!pip install transformers==4.14.1 datasets -q
 !pip install accelerate -q
 !pip install bitsandbytes-cuda111==0.26.0 -q
 !pip install git+https://github.com/aicrumb/datasettokenizer -q
