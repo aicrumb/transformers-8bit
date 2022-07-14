@@ -150,13 +150,13 @@ class GPTJForCausalLM(transformers.models.gptj.modeling_gptj.GPTJForCausalLM):
 
 transformers.models.gptj.modeling_gptj.GPTJBlock = GPTJBlock  # monkey-patch GPT-J
 
-def load(checkpoint_name="hivemind/gpt-j-6B-8bit", tokenizer_name="EleutherAI/gpt-j-6B", device='cuda'):
+def load_gptj(checkpoint_name="hivemind/gpt-j-6B-8bit", tokenizer_name="EleutherAI/gpt-j-6B", device='cuda'):
 	config = transformers.GPTJConfig.from_pretrained(tokenizer_name if tokenizer_name else checkpoint_name)
 	tokenizer = transformers.AutoTokenizer.from_pretrained(tokenizer_name if tokenizer_name else checkpoint_name)
 	gpt = GPTJForCausalLM.from_pretrained(checkpoint_name, low_cpu_mem_usage=True).to(device)
 	return gpt, tokenizer, config
 
-def generate(gpt, tokenizer, prompt, min_length=16, max_length=16, device='cuda'):
+def generate_gptj(gpt, tokenizer, prompt, min_length=16, max_length=16, device='cuda'):
 	prompt = tokenizer(prompt, return_tensors='pt')
 	prompt = {key: value.to(device) for key, value in prompt.items()}
 	out = gpt.generate(**prompt, min_length=min_length, max_length=max_length, do_sample=True)
