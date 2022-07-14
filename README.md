@@ -1,4 +1,4 @@
-# gpt-j-8bit
+# transformers-8bit
 wrapper for hivemind's gpt-j-8bit training code for easy loading
 
 model card of a model that i trained with this as proof of concept: https://huggingface.co/crumb/gpt-j-6b-shakespeare
