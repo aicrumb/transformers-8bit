@@ -127,37 +127,49 @@ def convert_to_int8(model):
                         code=torch.zeros(256),
                     )
                 )
-
+##################################################################
+# GPTJ
 class GPTJBlock(transformers.models.gptj.modeling_gptj.GPTJBlock):
     def __init__(self, config):
         super().__init__(config)
 
         convert_to_int8(self.attn)
         convert_to_int8(self.mlp)
-
-
 class GPTJModel(transformers.models.gptj.modeling_gptj.GPTJModel):
     def __init__(self, config):
         super().__init__(config)
         convert_to_int8(self)
-        
-
 class GPTJForCausalLM(transformers.models.gptj.modeling_gptj.GPTJForCausalLM):
     def __init__(self, config):
         super().__init__(config)
         convert_to_int8(self)
-
-
 transformers.models.gptj.modeling_gptj.GPTJBlock = GPTJBlock  # monkey-patch GPT-J
 
-def load_gptj(checkpoint_name="hivemind/gpt-j-6B-8bit", tokenizer_name="EleutherAI/gpt-j-6B", device='cuda'):
+# BLOOM
+class BloomBlock(transformers.models.bloom.modeling_bloom.BloomBlock):
+    def __init__(self, config, layer_number=None):
+        super().__init__(config, layer_number)
+        convert_to_int8(self.self_attention)
+        convert_to_int8(self.mlp)
+class BloomModel(transformers.models.bloom.modeling_bloom.BloomModel):
+    def __init__(self, config):
+        super().__init__(config)
+        convert_to_int8(self)   
+class BloomForCausalLM(transformers.models.bloom.modeling_bloom.BloomForCausalLM):
+    def __init__(self, config):
+        super().__init__(config)
+        convert_to_int8(self)
+transformers.models.bloom.modeling_bloom.BloomBlock = BloomBlock
+############################################################################
+
+def gptj(checkpoint_name="hivemind/gpt-j-6B-8bit", tokenizer_name="EleutherAI/gpt-j-6B", device='cuda'):
 	config = transformers.GPTJConfig.from_pretrained(tokenizer_name if tokenizer_name else checkpoint_name)
 	tokenizer = transformers.AutoTokenizer.from_pretrained(tokenizer_name if tokenizer_name else checkpoint_name)
 	gpt = GPTJForCausalLM.from_pretrained(checkpoint_name, low_cpu_mem_usage=True).to(device)
 	return gpt, tokenizer, config
 
-def generate_gptj(gpt, tokenizer, prompt, min_length=16, max_length=16, device='cuda'):
-	prompt = tokenizer(prompt, return_tensors='pt')
-	prompt = {key: value.to(device) for key, value in prompt.items()}
-	out = gpt.generate(**prompt, min_length=min_length, max_length=max_length, do_sample=True)
-	return tokenizer.decode(out[0])
+# def generate_gptj(gpt, tokenizer, prompt, min_length=16, max_length=16, device='cuda'):
+# 	prompt = tokenizer(prompt, return_tensors='pt')
+# 	prompt = {key: value.to(device) for key, value in prompt.items()}
+# 	out = gpt.generate(**prompt, min_length=min_length, max_length=max_length, do_sample=True)
+# 	return tokenizer.decode(out[0])

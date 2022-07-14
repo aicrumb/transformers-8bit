@@ -14,7 +14,11 @@ import transformers_8bit
 
 # this should work with any gpt-j checkpoint, 8bit or not
 model, tokenizer, config = transformers_8bit.load_gptj("crumb/gpt-j-6b-shakespeare", device='cuda')
-transformers_8bit.generate_gptj(model, tokenizer, "Romeo:", min_length=64, max_length=64)
+
+prompt = tokenizer("Romeo:", return_tensors='pt')
+prompt = {key: value.to('cuda') for key, value in prompt.items()}
+out = model.generate(**prompt, min_length=64, max_length=64, do_sample=True, pad_token_id=tokenizer.eos_token_id)
+print(tokenizer.decode(out[0]))
 
 """ example output
 Romeo: [Aside] And but in night, how tedious
@@ -44,9 +48,8 @@ import datasettokenizer as tok
 from huggingface_hub import notebook_login
 notebook_login() # log in before running rest of cells
 
-# load model and test generation
-model, tokenizer, config = transformers_8bit.load_gptj(device='cuda')
-transformers_8bit.generate_gptj(model, tokenizer, "Once upon a time", min_length=64, max_length=64)
+# load model
+model, tokenizer, config = transformers_8bit.gptj(device='cuda')
 
 # load and tokenize dataset
 from datasets import load_dataset
