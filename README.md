@@ -5,13 +5,21 @@ model card of a model that i trained with this as proof of concept: https://hugg
 
 check out hivemind's original 8bit quantized model: https://huggingface.co/hivemind/gpt-j-6B-8bit
 
+### installation
+
+```python
+!pip install git+https://github.com/huggingface/transformers datasets -q
+!pip install accelerate -q
+!pip install bitsandbytes-cuda111==0.26.0 -q
+!pip install git+https://github.com/aicrumb/datasettokenizer -q
+!pip install git+https://github.com/aicrumb/transformers-8bit -q
+```
+
+
+
 ### inference example
 
 ```python
-# libraries and a wrapper around hivemind's quantization code
-!pip install transformers==4.14.1 bitsandbytes-cuda111==0.26.0 git+https://github.com/aicrumb/transformers-8bit -q
-import transformers_8bit
-
 # this should work with any gpt-j checkpoint, 8bit or not
 model, tokenizer, config = transformers_8bit.load_gptj("crumb/gpt-j-6b-shakespeare", device='cuda')
 
@@ -29,15 +37,11 @@ Call time up o'er-head,
 """
 ```
 
+
+
 ### finetuning example
 
 ```python
-from IPython import display 
-!pip install transformers==4.14.1 datasets -q
-!pip install bitsandbytes-cuda111==0.26.0 -q
-!pip install git+https://github.com/aicrumb/datasettokenizer -q
-!pip install git+https://github.com/aicrumb/transformers-8bit -q
-
 import transformers
 import torch
 from bitsandbytes.optim import Adam8bit
