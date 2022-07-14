@@ -146,20 +146,20 @@ class GPTJForCausalLM(transformers.models.gptj.modeling_gptj.GPTJForCausalLM):
 transformers.models.gptj.modeling_gptj.GPTJBlock = GPTJBlock  # monkey-patch GPT-J
 
 # BLOOM
-class BloomBlock(transformers.models.bloom.modeling_bloom.BloomBlock):
-    def __init__(self, config, layer_number=None):
-        super().__init__(config, layer_number)
-        convert_to_int8(self.self_attention)
-        convert_to_int8(self.mlp)
-class BloomModel(transformers.models.bloom.modeling_bloom.BloomModel):
-    def __init__(self, config):
-        super().__init__(config)
-        convert_to_int8(self)   
-class BloomForCausalLM(transformers.models.bloom.modeling_bloom.BloomForCausalLM):
-    def __init__(self, config):
-        super().__init__(config)
-        convert_to_int8(self)
-transformers.models.bloom.modeling_bloom.BloomBlock = BloomBlock
+# class BloomBlock(transformers.models.bloom.modeling_bloom.BloomBlock):
+#     def __init__(self, config, layer_number=None):
+#         super().__init__(config, layer_number)
+#         convert_to_int8(self.self_attention)
+#         convert_to_int8(self.mlp)
+# class BloomModel(transformers.models.bloom.modeling_bloom.BloomModel):
+#     def __init__(self, config):
+#         super().__init__(config)
+#         convert_to_int8(self)   
+# class BloomForCausalLM(transformers.models.bloom.modeling_bloom.BloomForCausalLM):
+#     def __init__(self, config):
+#         super().__init__(config)
+#         convert_to_int8(self)
+# transformers.models.bloom.modeling_bloom.BloomBlock = BloomBlock
 ############################################################################
 
 def gptj(checkpoint_name="hivemind/gpt-j-6B-8bit", tokenizer_name="EleutherAI/gpt-j-6B", device='cuda'):
