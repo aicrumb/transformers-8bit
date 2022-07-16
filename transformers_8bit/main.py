@@ -127,6 +127,23 @@ def convert_to_int8(model):
                         code=torch.zeros(256),
                     )
                 )
+		
+def lora(model, adapter_dim=16):
+    assert adapter_dim > 0
+
+    for module in model.modules():
+        if isinstance(module, FrozenBNBLinear):
+            module.adapter = nn.Sequential(
+                nn.Linear(module.in_features, adapter_dim, bias=False),
+                nn.Linear(adapter_dim, module.out_features, bias=False),
+            )
+            nn.init.zeros_(module.adapter[1].weight)
+        elif isinstance(module, FrozenBNBEmbedding):
+            module.adapter = nn.Sequential(
+                nn.Embedding(module.num_embeddings, adapter_dim),
+                nn.Linear(adapter_dim, module.embedding_dim, bias=False),
+            )
+            nn.init.zeros_(module.adapter[1].weight)
 ##################################################################
 # GPTJ
 class GPTJBlock(transformers.models.gptj.modeling_gptj.GPTJBlock):
